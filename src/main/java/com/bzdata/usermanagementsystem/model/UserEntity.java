@@ -27,7 +27,7 @@ public class UserEntity extends AbstractEntity  {
     String[] roles;
     String[] authorities;
     boolean isActive;
-    boolean isNotLocked;
+    boolean isNonLocked;
 
 
 }
