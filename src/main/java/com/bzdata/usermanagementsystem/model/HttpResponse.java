@@ -21,4 +21,10 @@ public class HttpResponse {
     private String reason;
     private String messages;
 
+    public HttpResponse(int httpStatusCode, HttpStatus httpStatus, String reason, String messages) {
+        this.httpStatusCode = httpStatusCode;
+        this.httpStatus = httpStatus;
+        this.reason = reason;
+        this.messages = messages;
+    }
 }
