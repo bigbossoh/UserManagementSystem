@@ -26,6 +26,6 @@ public class HttpResponse {
         this.httpStatusCode = httpStatusCode;
         this.httpStatus = httpStatus;
         this.reason = reason;
-        this.messages = messages;
+        this.messages = messages.toUpperCase();
     }
 }
