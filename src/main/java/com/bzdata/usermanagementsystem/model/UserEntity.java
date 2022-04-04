@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -22,7 +23,8 @@ public class UserEntity extends AbstractEntity  {
     String password;
     String email;
     String profileImageUrl;
-    String lastLoginDate;
+    Date lastLoginDate;
+    Date lastLoginDateDisplay;
     String joinDate;
     String[] roles;
     String[] authorities;

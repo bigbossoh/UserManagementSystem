@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HttpResponse {
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss", timezone = "Europe/London")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss", timezone = "Africa/Abidjan")
     private Date timeStamp;
     private int httpStatusCode;
     private HttpStatus httpStatus;
@@ -22,6 +22,7 @@ public class HttpResponse {
     private String messages;
 
     public HttpResponse(int httpStatusCode, HttpStatus httpStatus, String reason, String messages) {
+        this.timeStamp=new Date();
         this.httpStatusCode = httpStatusCode;
         this.httpStatus = httpStatus;
         this.reason = reason;
