@@ -2,17 +2,29 @@ package com.bzdata.usermanagementsystem.resource;
 
 import com.bzdata.usermanagementsystem.exception.ExceptionHandling;
 import com.bzdata.usermanagementsystem.exception.model.EmailExistException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.bzdata.usermanagementsystem.exception.model.UserNotFoundException;
+import com.bzdata.usermanagementsystem.exception.model.UsernameExistException;
+import com.bzdata.usermanagementsystem.model.UserEntity;
+import com.bzdata.usermanagementsystem.service.UserService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping(path={"ums/api/v1/user","/"})
+@AllArgsConstructor
+@RequestMapping(path = {"ums/api/v1/user", "/"})
 public class UserResource extends ExceptionHandling {
-    @GetMapping("/home")
-    public String showUser() throws EmailExistException {
 
-        //return "application works fine";
-        throw new EmailExistException("this email is already taken");
+    private final UserService userService;
+
+    @PostMapping("/register")
+    public ResponseEntity<UserEntity> register(@RequestBody UserEntity userEntity) throws UserNotFoundException, EmailExistException, UsernameExistException {
+        UserEntity newUser = userService.register(userEntity.getFamilyName(), userEntity.getRemainingName(),
+                userEntity.getUsername(), userEntity.getEmail());
+        return new ResponseEntity<>(newUser, OK);
+
     }
 }
