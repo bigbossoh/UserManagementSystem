@@ -25,8 +25,8 @@ public class UserEntity extends AbstractEntity  {
     String profileImageUrl;
     Date lastLoginDate;
     Date lastLoginDateDisplay;
-    String joinDate;
-    String[] roles;
+    Date joinDate;
+    String role;
     String[] authorities;
     boolean isActive;
     boolean isNonLocked;
