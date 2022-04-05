@@ -6,6 +6,7 @@ import com.bzdata.usermanagementsystem.exception.model.UsernameExistException;
 import com.bzdata.usermanagementsystem.model.UserEntity;
 import com.bzdata.usermanagementsystem.model.UserPrincipal;
 import com.bzdata.usermanagementsystem.repository.UserRepository;
+import com.bzdata.usermanagementsystem.service.LoginAttemptService;
 import com.bzdata.usermanagementsystem.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final LoginAttemptService loginAttemptService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -45,12 +47,24 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             log.error(NO_USER_FOUND_BY_USERNAME+ username);
             throw new UsernameNotFoundException(NO_USER_FOUND_BY_USERNAME+ username);
         }else{
+            validateLoginAttempt(userEntity);
             userEntity.setLastLoginDateDisplay(userEntity.getLastLoginDate());
             userEntity.setLastLoginDate(new Date());
             userRepository.save(userEntity);
             UserPrincipal userPrincipal=new UserPrincipal(userEntity);
             log.info("Returning found user by username: "+ username);
             return userPrincipal;
+        }
+    }
+    private void validateLoginAttempt(UserEntity user) {
+        if(user.isNonLocked()) {
+            if(loginAttemptService.hasExceededMaxAttempts(user.getUsername())) {
+                user.setNonLocked(false);
+            } else {
+                user.setNonLocked(true);
+            }
+        } else {
+            loginAttemptService.evictUserFromLoginAttemptCache(user.getUsername());
         }
     }
 
