@@ -6,12 +6,13 @@ import com.bzdata.usermanagementsystem.exception.model.UsernameExistException;
 import com.bzdata.usermanagementsystem.model.UserEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
 
-    UserEntity register(String familyName, String remainingName, String username, String email) throws UserNotFoundException, EmailExistException, UsernameExistException;
+    UserEntity register(String familyName, String remainingName, String username, String email) throws UserNotFoundException, EmailExistException, UsernameExistException, MessagingException;
     List<UserEntity> getUsers();
 
     UserEntity findUserByUsername(String username);
