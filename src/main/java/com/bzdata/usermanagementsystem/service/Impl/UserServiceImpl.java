@@ -6,6 +6,7 @@ import com.bzdata.usermanagementsystem.exception.model.UsernameExistException;
 import com.bzdata.usermanagementsystem.model.UserEntity;
 import com.bzdata.usermanagementsystem.model.UserPrincipal;
 import com.bzdata.usermanagementsystem.repository.UserRepository;
+import com.bzdata.usermanagementsystem.service.EmailService;
 import com.bzdata.usermanagementsystem.service.LoginAttemptService;
 import com.bzdata.usermanagementsystem.service.UserService;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.mail.MessagingException;
 import java.util.Date;
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final LoginAttemptService loginAttemptService;
+    private final EmailService emailService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -69,7 +72,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserEntity register(String familyName, String remainingName, String username, String email) throws UserNotFoundException, EmailExistException, UsernameExistException {
+    public UserEntity register(String familyName, String remainingName, String username, String email) throws
+            UserNotFoundException, EmailExistException, UsernameExistException, MessagingException {
         validateNewUsernameAndEmail(EMPTY, username, email);
         UserEntity user = new UserEntity();
         user.setUserApplicationId(generateUserId());
@@ -88,7 +92,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setProfileImageUrl(getTemporaryProfileImageUrl(username));
         userRepository.save(user);
         log.info("New user password: " + password);
-      //  emailService.sendNewPasswordEmail(firstName, password, email);
+        emailService.sendNewPasswordEmail(familyName, password, email);
         return user;
     }
     private String getTemporaryProfileImageUrl(String username) {
