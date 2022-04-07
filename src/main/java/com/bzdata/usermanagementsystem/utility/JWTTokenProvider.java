@@ -3,9 +3,6 @@ package com.bzdata.usermanagementsystem.utility;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import static com.bzdata.usermanagementsystem.constant.SecurityConstant.*;
-import static java.util.Arrays.stream;
-
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.bzdata.usermanagementsystem.model.UserPrincipal;
 import org.apache.commons.lang3.StringUtils;
@@ -14,15 +11,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.bzdata.usermanagementsystem.constant.SecurityConstant.*;
+import static java.util.Arrays.stream;
 @Component
 public class JWTTokenProvider {
 
@@ -52,7 +51,8 @@ public class JWTTokenProvider {
     }
     public boolean isTokenValid(String username, String token){
         JWTVerifier verifier=getJWTVerifier();
-        return StringUtils.isNoneEmpty(username)&& isTokenExpired(verifier,token);
+        return StringUtils.isNoneEmpty(username)&& !isTokenExpired(verifier,token);
+
     }
 
     public String getSubject(String token){

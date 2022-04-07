@@ -263,7 +263,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserEntity updateProfileImage(String username, MultipartFile profileImage) throws UserNotFoundException, EmailExistException, UsernameExistException, IOException {
         UserEntity user= validateNewUsernameAndEmail(username,null,null);
         saveProfileImage(user,profileImage);
-        return null;
+        return user;
     }
 
 
