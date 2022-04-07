@@ -1,11 +1,12 @@
 package com.bzdata.usermanagementsystem.constant;
 
 public class FileConstant {
-    public static final String USER_IMAGE_PATH = "/user/image/";
+    public static final String USER_IMAGE_PATH ="ums/api/v1/user/image/";
+    public static final String GLOBAL_URL = "ums/api/v1/user";
     public static final String JPG_EXTENSION = "jpg";
     public static final String USER_FOLDER = System.getProperty("user.home") + "/userManagementSystem/user/";
     public static final String DIRECTORY_CREATED = "Created directory for: ";
-    public static final String DEFAULT_USER_IMAGE_PATH = "/user/image/profile/";
+    public static final String DEFAULT_USER_IMAGE_PATH = "ums/api/v1/user/image/profile/";
     public static final String FILE_SAVED_IN_FILE_SYSTEM = "Saved file in file system by name: ";
     public static final String DOT = ".";
     public static final String FORWARD_SLASH = "/";
