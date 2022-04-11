@@ -41,6 +41,7 @@ import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 @AllArgsConstructor
 @Slf4j
 @RequestMapping(path = {GLOBAL_URL, "/"})
+@CrossOrigin("http://localhost:4200")
 public class UserResource extends ExceptionHandling {
 
     public static final String EMAIL_SENT = "An email with a new password was sent to: ";
